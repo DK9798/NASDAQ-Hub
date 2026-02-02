@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Analysis - NASDAQ Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Chart.js for interactive financial charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Header section with main title and subtitle -->
+    <header>
+        <h1>NASDAQ Hub</h1>
+        <p>Independent equity & financial analysis</p>
+        <button class="admin-access-btn" id="admin-access-btn">Admin Access</button>
+    </header>
+
+    <!-- Navigation bar with links to different sections/pages -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="company.html">Company Analysis</a></li>
+            <li><a href="market.html">Market Insights</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main content area -->
+    <main>
+        <!-- Company Analysis section with explanation and table -->
+        <section id="company-analysis">
+            <h2>Company Analysis</h2>
+            <p>This section analyses publicly listed companies using key financial metrics such as market capitalization, revenue, net income, and price-to-earnings ratio. This helps investors make informed decisions based on quantitative data.</p>
+
+            <!-- Search Bar -->
+            <!-- SEARCH FUNCTIONALITY:
+                 - Live search filters table rows as user types
+                 - Searches ticker symbols and company names
+                 - Case-insensitive matching
+                 - To add new searchable fields: update searchFields array in JavaScript
+                 - Search is cleared when input is empty
+            -->
+            <div class="search-container">
+                <input type="text" id="company-search" class="search-input" placeholder="Search companies by ticker or name...">
+                <span class="search-icon">🔍</span>
+                <span id="search-results-count" class="search-results"></span>
+            </div>
+
+            <!-- Sorting Controls -->
+            <!-- SORTING FUNCTIONALITY:
+                 - Dropdown allows sorting by different metrics
+                 - Sort order toggles between ascending/descending on each click
+                 - Table rows are reordered dynamically
+                 - New companies added via form are included in sorting
+                 - To add new sorting options: add to sortOptions array and update switch statement
+            -->
+            <div class="sorting-controls">
+                <label for="sort-select">Sort by:</label>
+                <select id="sort-select" class="sort-dropdown">
+                    <option value="default">Default Order</option>
+                    <option value="market-cap">Market Cap</option>
+                    <option value="revenue">Revenue</option>
+                    <option value="net-income">Net Income</option>
+                    <option value="pe-ratio">P/E Ratio</option>
+                </select>
+                <button id="sort-direction-btn" class="sort-direction-btn">↑ Ascending</button>
+                <span class="sort-info">Click dropdown to sort, button to reverse order</span>
+            </div>
+
+            <!-- Table with placeholder company data -->
+            <table id="company-table">
+                <thead>
+                    <tr>
+                        <th>Ticker</th>
+                        <th>Market Cap</th>
+                        <th>Revenue</th>
+                        <th>Net Income</th>
+                        <th>P/E Ratio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>AAPL</td>
+                        <td>$2.5T</td>
+                        <td>$365B</td>
+                        <td>$94B</td>
+                        <td>28.5</td>
+                    </tr>
+                    <tr>
+                        <td>GOOGL</td>
+                        <td>$1.8T</td>
+                        <td>$280B</td>
+                        <td>$60B</td>
+                        <td>25.2</td>
+                    </tr>
+                    <tr>
+                        <td>MSFT</td>
+                        <td>$2.2T</td>
+                        <td>$198B</td>
+                        <td>$72B</td>
+                        <td>32.1</td>
+                    </tr>
+                    <tr>
+                        <td>AMZN</td>
+                        <td>$1.5T</td>
+                        <td>$469B</td>
+                        <td>$33B</td>
+                        <td>45.8</td>
+                    </tr>
+                    <!-- Tesla (TSLA) row with approximate current metrics -->
+                    <tr>
+                        <td>TSLA</td>
+                        <td>~800B</td>
+                        <td>~$90B</td>
+                        <td>~$12B</td>
+                        <td>~65</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- AI-Assisted Financial Commentary section -->
+            <h3>AI-Assisted Financial Commentary</h3>
+            <p>Tesla has shown impressive growth in the electric vehicle sector, with revenue surging due to increased production and global demand. However, the company faces challenges in achieving consistent profitability amid high operational costs and market competition. Its elevated P/E ratio suggests investors are optimistic about Tesla's long-term innovation and market leadership in sustainable energy.</p>
+        </section>
+
+        <!-- Visual separator for Weekly Company Spotlight -->
+        <div class="section-separator"></div>
+
+        <!-- Weekly Company Spotlight section for adding new companies -->
+        <section id="weekly-spotlight">
+            <h2>Weekly Company Spotlight</h2>
+            <p>This section features a new company analysis each week. Use the form below to add new companies directly.</p>
+
+            <!-- Weekly Company Update Instructions:
+                 - Fill out the form with the latest company data
+                 - Click "Add Company" to append a new spotlight below
+                 - New companies appear in the order added
+                 - Data persists only for the current session (refresh to clear)
+                 - For permanent additions, manually edit the template below
+            -->
+
+            <form id="add-company-form" class="add-company-form" style="display: none;">
+                <label for="ticker">Ticker:</label>
+                <input type="text" id="ticker" required>
+
+                <label for="market-cap">Market Cap:</label>
+                <input type="text" id="market-cap" required>
+
+                <label for="revenue">Revenue:</label>
+                <input type="text" id="revenue" required>
+
+                <label for="net-income">Net Income:</label>
+                <input type="text" id="net-income" required>
+
+                <label for="pe-ratio">P/E Ratio:</label>
+                <input type="text" id="pe-ratio" required>
+
+                <label for="commentary">AI-Assisted Financial Commentary:</label>
+                <textarea id="commentary" rows="3" required></textarea>
+
+                <button type="submit">Add Company</button>
+            </form>
+
+            <!-- Container for dynamically added companies -->
+            <div id="new-companies"></div>
+
+            <!-- Template for new company spotlight -->
+            <!-- INSTRUCTIONS: To add a new company weekly:
+                 1. Copy the entire <div class="company-spotlight"> block below.
+                 2. Paste it after the last company spotlight.
+                 3. Replace the placeholder text with actual company data.
+                 4. Update the date in the <h4> if desired.
+                 5. Ensure all values are accurate and commentary is 2-3 sentences.
+                 6. Test the page to ensure styling looks good.
+            -->
+            <div class="company-spotlight">
+                <h4>TSLA - February 2, 2026</h4>
+                <!-- Placeholder company logo -->
+                <img src="https://via.placeholder.com/50x50/222222/ffffff?text=TSLA" alt="Tesla Logo" class="company-logo">
+                <!-- Company metrics in card layout -->
+                <div class="company-metrics">
+                    <div class="metric">
+                        <span class="metric-label">Market Cap:</span>
+                        <span class="metric-value">~800B</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Revenue:</span>
+                        <span class="metric-value">~$90B</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Net Income:</span>
+                        <span class="metric-value">~$12B</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">P/E Ratio:</span>
+                        <span class="metric-value">~65</span>
+                    </div>
+                </div>
+                <h5>AI-Assisted Financial Commentary</h5>
+                <p>Tesla has shown impressive growth in the electric vehicle sector, with revenue surging due to increased production and global demand. However, the company faces challenges in achieving consistent profitability amid high operational costs and market competition. Its elevated P/E ratio suggests investors are optimistic about Tesla's long-term innovation and market leadership in sustainable energy.</p>
+
+                <!-- Interactive Charts Section -->
+                <div class="company-charts">
+                    <h5>Financial Trends</h5>
+                    <div id="tsla-charts-container" class="charts-container">
+                        <!-- Charts will be created here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Admin Access Modal -->
+    <div id="admin-modal" class="login-modal" style="display: none;">
+        <div class="login-modal-content">
+            <h2>Admin Access</h2>
+            <p>Enter password to unlock editing features:</p>
+            <input type="password" id="admin-password-input" class="password-input" placeholder="Enter password">
+            <div class="login-buttons">
+                <button id="admin-login-btn" class="login-btn">Unlock</button>
+                <button id="admin-cancel-btn" class="cancel-btn">Cancel</button>
+            </div>
+            <p class="login-message" id="admin-login-message"></p>
+        </div>
+    </div>
+
+    <!-- JavaScript for adding companies dynamically and admin access -->
+    <script>
+        // Chart.js Configuration for Dark Theme
+        Chart.defaults.color = '#cccccc';
+        Chart.defaults.borderColor = '#333333';
+
+        // Historical financial data for companies
+        // MANUAL UPDATE INSTRUCTIONS FOR CHART DATA:
+        // To add new data points to charts:
+        // 1. Find the company ticker in the companyChartData object below
+        // 2. Add new entries to each metric array (labels, marketCap, revenue, netIncome, peRatio)
+        // 3. Labels should be dates in 'YYYY-MM' format (e.g., '2024-01', '2024-02')
+        // 4. Values should be numeric (remove $ and B/T suffixes for calculations)
+        // 5. Charts will automatically update when new companies are added
+        // 6. For new companies, add a new entry to companyChartData with the ticker as key
+        // 7. Example: 'NVDA': { labels: ['2024-01'], marketCap: [2000], revenue: [100], netIncome: [50], peRatio: [35] }
+        const companyChartData = {
+            'TSLA': {
+                labels: ['2023-01', '2023-04', '2023-07', '2023-10', '2024-01', '2024-04', '2024-07', '2024-10', '2025-01', '2025-04', '2025-07', '2025-10', '2026-01'],
+                marketCap: [600, 650, 700, 750, 800, 850, 900, 950, 1000, 1050, 1100, 1150, 1200], // in billions
+                revenue: [70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130], // in billions
+                netIncome: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], // in billions
+                peRatio: [50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110]
+            },
+            'AAPL': {
+                labels: ['2023-01', '2023-04', '2023-07', '2023-10', '2024-01', '2024-04', '2024-07', '2024-10', '2025-01', '2025-04', '2025-07', '2025-10', '2026-01'],
+                marketCap: [2200, 2250, 2300, 2350, 2400, 2450, 2500, 2550, 2600, 2650, 2700, 2750, 2800],
+                revenue: [340, 345, 350, 355, 360, 365, 370, 375, 380, 385, 390, 395, 400],
+                netIncome: [85, 87, 89, 91, 93, 95, 97, 99, 101, 103, 105, 107, 109],
+                peRatio: [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37]
+            },
+            'GOOGL': {
+                labels: ['2023-01', '2023-04', '2023-07', '2023-10', '2024-01', '2024-04', '2024-07', '2024-10', '2025-01', '2025-04', '2025-07', '2025-10', '2026-01'],
+                marketCap: [1600, 1650, 1700, 1750, 1800, 1850, 1900, 1950, 2000, 2050, 2100, 2150, 2200],
+                revenue: [260, 265, 270, 275, 280, 285, 290, 295, 300, 305, 310, 315, 320],
+                netIncome: [55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77, 79],
+                peRatio: [22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34]
+            },
+            'MSFT': {
+                labels: ['2023-01', '2023-04', '2023-07', '2023-10', '2024-01', '2024-04', '2024-07', '2024-10', '2025-01', '2025-04', '2025-07', '2025-10', '2026-01'],
+                marketCap: [2000, 2050, 2100, 2150, 2200, 2250, 2300, 2350, 2400, 2450, 2500, 2550, 2600],
+                revenue: [180, 185, 190, 195, 200, 205, 210, 215, 220, 225, 230, 235, 240],
+                netIncome: [65, 67, 69, 71, 73, 75, 77, 79, 81, 83, 85, 87, 89],
+                peRatio: [28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]
+            },
+            'AMZN': {
+                labels: ['2023-01', '2023-04', '2023-07', '2023-10', '2024-01', '2024-04', '2024-07', '2024-10', '2025-01', '2025-04', '2025-07', '2025-10', '2026-01'],
+                marketCap: [1300, 1350, 1400, 1450, 1500, 1550, 1600, 1650, 1700, 1750, 1800, 1850, 1900],
+                revenue: [440, 445, 450, 455, 460, 465, 470, 475, 480, 485, 490, 495, 500],
+                netIncome: [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42],
+                peRatio: [40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52]
+            }
+        };
+
+        // Function to create charts for a company
+        function createCompanyCharts(ticker, containerId) {
+            const data = companyChartData[ticker.toUpperCase()];
+            if (!data) {
+                console.warn(`No chart data found for ${ticker}. To add chart data, update the companyChartData object above.`);
+                // Create a placeholder message
+                const container = document.getElementById(containerId);
+                if (container) {
+                    container.innerHTML = '<p style="color: #666; font-style: italic; text-align: center; padding: 20px;">Chart data not available. Update companyChartData object to add historical trends.</p>';
+                }
+                return;
+            }
+
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            // Clear existing charts
+            container.innerHTML = '';
+
+            // Chart configuration
+            const chartConfig = {
+                type: 'line',
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                            titleColor: '#ffd700',
+                            bodyColor: '#ffffff',
+                            borderColor: '#00d4ff',
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            titleFont: {
+                                size: 18,
+                                weight: 'bold'
+                            },
+                            bodyFont: {
+                                size: 16
+                            }
+                        },
+                        title: {
+                            display: true,
+                            font: {
+                                size: 20,
+                                weight: 'bold'
+                            },
+                            padding: 25
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: '#333333',
+                                lineWidth: 1
+                            },
+                            ticks: {
+                                color: '#cccccc',
+                                font: {
+                                    size: 14,
+                                    weight: '500'
+                                }
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: '#333333',
+                                lineWidth: 1
+                            },
+                            ticks: {
+                                color: '#cccccc',
+                                font: {
+                                    size: 14,
+                                    weight: '500'
+                                },
+                                callback: function(value) {
+                                    return '$' + value + 'B';
+                                }
+                            }
+                        }
+                    },
+                    elements: {
+                        point: {
+                            radius: 8,
+                            hoverRadius: 10,
+                            borderWidth: 2,
+                            backgroundColor: '#ffffff'
+                        },
+                        line: {
+                            borderWidth: 4
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            };
+
+            // Create Market Cap Chart
+            const marketCapCanvas = document.createElement('canvas');
+            marketCapCanvas.id = `${ticker.toLowerCase()}-market-cap-chart`;
+            marketCapCanvas.width = 600;
+            marketCapCanvas.height = 400;
+            container.appendChild(marketCapCanvas);
+
+            new Chart(marketCapCanvas, {
+                ...chartConfig,
+                options: {
+                    ...chartConfig.options,
+                    plugins: {
+                        ...chartConfig.options.plugins,
+                        title: {
+                            display: true,
+                            text: 'Market Cap Trend',
+                            color: '#00d4ff',
+                            font: {
+                                size: 22,
+                                weight: 'bold'
+                            },
+                            padding: 25
+                        }
+                    }
+                },
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Market Cap',
+                        data: data.marketCap,
+                        borderColor: '#00d4ff',
+                        backgroundColor: 'rgba(0, 212, 255, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                }
+            });
+
+            // Create Revenue Chart
+            const revenueCanvas = document.createElement('canvas');
+            revenueCanvas.id = `${ticker.toLowerCase()}-revenue-chart`;
+            revenueCanvas.width = 600;
+            revenueCanvas.height = 400;
+            container.appendChild(revenueCanvas);
+
+            new Chart(revenueCanvas, {
+                ...chartConfig,
+                options: {
+                    ...chartConfig.options,
+                    plugins: {
+                        ...chartConfig.options.plugins,
+                        title: {
+                            display: true,
+                            text: 'Revenue Trend',
+                            color: '#ffd700',
+                            font: {
+                                size: 22,
+                                weight: 'bold'
+                            },
+                            padding: 25
+                        }
+                    }
+                },
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Revenue',
+                        data: data.revenue,
+                        borderColor: '#ffd700',
+                        backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                }
+            });
+
+            // Create Net Income Chart
+            const netIncomeCanvas = document.createElement('canvas');
+            netIncomeCanvas.id = `${ticker.toLowerCase()}-net-income-chart`;
+            netIncomeCanvas.width = 600;
+            netIncomeCanvas.height = 400;
+            container.appendChild(netIncomeCanvas);
+
+            new Chart(netIncomeCanvas, {
+                ...chartConfig,
+                options: {
+                    ...chartConfig.options,
+                    plugins: {
+                        ...chartConfig.options.plugins,
+                        title: {
+                            display: true,
+                            text: 'Net Income Trend',
+                            color: '#00ff88',
+                            font: {
+                                size: 22,
+                                weight: 'bold'
+                            },
+                            padding: 25
+                        }
+                    }
+                },
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Net Income',
+                        data: data.netIncome,
+                        borderColor: '#00ff88',
+                        backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                }
+            });
+
+            // Create P/E Ratio Chart
+            const peRatioCanvas = document.createElement('canvas');
+            peRatioCanvas.id = `${ticker.toLowerCase()}-pe-ratio-chart`;
+            peRatioCanvas.width = 600;
+            peRatioCanvas.height = 400;
+            container.appendChild(peRatioCanvas);
+
+            new Chart(peRatioCanvas, {
+                ...chartConfig,
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'P/E Ratio',
+                        data: data.peRatio,
+                        borderColor: '#ff6b6b',
+                        backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    ...chartConfig.options,
+                    plugins: {
+                        ...chartConfig.options.plugins,
+                        title: {
+                            display: true,
+                            text: 'P/E Ratio Trend',
+                            color: '#ff6b6b',
+                            font: {
+                                size: 22,
+                                weight: 'bold'
+                            },
+                            padding: 25
+                        }
+                    },
+                    scales: {
+                        ...chartConfig.options.scales,
+                        y: {
+                            ...chartConfig.options.scales.y,
+                            ticks: {
+                                ...chartConfig.options.scales.y.ticks,
+                                callback: function(value) {
+                                    return value;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Admin Access functionality
+        // Hard-coded password for admin access
+        // To change password: Replace 'nasdaq2026' with your desired password
+        const ADMIN_PASSWORD = 'D@nyalNASDQ26';
+
+        // DOM elements for admin access
+        const adminBtn = document.getElementById('admin-access-btn');
+        const adminModal = document.getElementById('admin-modal');
+        const adminPasswordInput = document.getElementById('admin-password-input');
+        const adminLoginBtn = document.getElementById('admin-login-btn');
+        const adminCancelBtn = document.getElementById('admin-cancel-btn');
+        const adminLoginMessage = document.getElementById('admin-login-message');
+
+        // Sorting event listeners
+        const sortSelect = document.getElementById('sort-select');
+        const sortDirectionBtn = document.getElementById('sort-direction-btn');
+
+        sortSelect.addEventListener('change', function() {
+            currentSortBy = this.value;
+            sortTable(currentSortBy, sortAscending);
+            updateSortDirectionButton();
+        });
+
+        sortDirectionBtn.addEventListener('click', function() {
+            sortAscending = !sortAscending;
+            sortTable(currentSortBy, sortAscending);
+            updateSortDirectionButton();
+        });
+
+        function updateSortDirectionButton() {
+            sortDirectionBtn.textContent = sortAscending ? '↑ Ascending' : '↓ Descending';
+            sortDirectionBtn.style.background = sortAscending ?
+                'linear-gradient(45deg, var(--neon-blue), var(--gold))' :
+                'linear-gradient(45deg, var(--gold), var(--neon-blue))';
+        }
+
+        // DOM elements for form
+        const form = document.getElementById('add-company-form');
+        const newCompaniesContainer = document.getElementById('new-companies');
+
+        // Sorting functionality variables
+        let currentSortBy = 'default';
+        let sortAscending = true;
+
+        // Search functionality variables
+        let searchTerm = '';
+
+        // SEARCH FUNCTIONALITY EXPLANATION:
+        // - filterCompanies() function handles live search filtering
+        // - Searches through specified fields (ticker, company name if available)
+        // - Case-insensitive matching using includes() method
+        // - Hides/shows table rows based on search results
+        // - Updates results counter dynamically
+        // - To add new searchable fields: add to searchFields array below
+        const searchFields = ['ticker']; // Currently searches ticker only, can add 'companyName' if column exists
+
+        // Search input event listener
+        const searchInput = document.getElementById('company-search');
+        const searchResultsCount = document.getElementById('search-results-count');
+
+        searchInput.addEventListener('input', function() {
+            searchTerm = this.value.trim().toLowerCase();
+            filterCompanies();
+            updateSearchResultsCount();
+        });
+
+        // Function to filter companies based on search term
+        function filterCompanies() {
+            const tableBody = document.querySelector('#company-table tbody');
+            const rows = tableBody.querySelectorAll('tr');
+            let visibleCount = 0;
+
+            rows.forEach(row => {
+                const tickerCell = row.cells[0]; // Ticker is always in first column
+                const tickerText = tickerCell ? tickerCell.textContent.trim().toLowerCase() : '';
+
+                // Check if search term matches ticker
+                const matches = searchTerm === '' || tickerText.includes(searchTerm);
+
+                if (matches) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            return visibleCount;
+        }
+
+        // Function to update search results count
+        function updateSearchResultsCount() {
+            const totalRows = document.querySelectorAll('#company-table tbody tr').length;
+            const visibleRows = filterCompanies();
+
+            if (searchTerm === '') {
+                searchResultsCount.textContent = '';
+            } else {
+                searchResultsCount.textContent = `Showing ${visibleRows} of ${totalRows} companies`;
+            }
+        }
+
+        // SORTING FUNCTIONALITY EXPLANATION:
+        // - sortTable() function handles all sorting logic
+        // - Extracts numeric values from table cells for proper comparison
+        // - Handles different data formats (B for billions, T for trillions)
+        // - Preserves table structure while reordering rows
+        // - To add new sorting criteria: add case to switch statement and update dropdown
+        function sortTable(sortBy, ascending = true) {
+            const table = document.getElementById('company-table');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            if (sortBy === 'default') {
+                // For default sorting, we need to maintain the original order
+                // This is tricky with dynamic content, so we'll sort by ticker alphabetically as fallback
+                rows.sort((a, b) => {
+                    const tickerA = a.cells[0].textContent.trim();
+                    const tickerB = b.cells[0].textContent.trim();
+                    return ascending ? tickerA.localeCompare(tickerB) : tickerB.localeCompare(tickerA);
+                });
+            } else {
+                rows.sort((a, b) => {
+                    let valueA, valueB;
+
+                    switch(sortBy) {
+                        case 'market-cap':
+                            valueA = extractNumericValue(a.cells[1].textContent);
+                            valueB = extractNumericValue(b.cells[1].textContent);
+                            break;
+                        case 'revenue':
+                            valueA = extractNumericValue(a.cells[2].textContent);
+                            valueB = extractNumericValue(b.cells[2].textContent);
+                            break;
+                        case 'net-income':
+                            valueA = extractNumericValue(a.cells[3].textContent);
+                            valueB = extractNumericValue(b.cells[3].textContent);
+                            break;
+                        case 'pe-ratio':
+                            valueA = parseFloat(a.cells[4].textContent.replace(/[^\d.-]/g, '')) || 0;
+                            valueB = parseFloat(b.cells[4].textContent.replace(/[^\d.-]/g, '')) || 0;
+                            break;
+                        default:
+                            return 0;
+                    }
+
+                    if (ascending) {
+                        return valueA - valueB;
+                    } else {
+                        return valueB - valueA;
+                    }
+                });
+            }
+
+            // Clear and re-append rows in sorted order
+            tbody.innerHTML = '';
+            rows.forEach(row => tbody.appendChild(row));
+
+            // Re-apply search filter after sorting
+            if (searchTerm !== '') {
+                filterCompanies();
+            }
+
+            // Update search results count
+            updateSearchResultsCount();
+        }
+
+        // Helper function to extract numeric values from formatted strings
+        // Handles formats like "$2.5T", "~800B", "$365B", etc.
+        function extractNumericValue(text) {
+            // Remove currency symbols, tildes, and extract number + multiplier
+            const cleaned = text.replace(/[~$]/g, '').trim();
+            const match = cleaned.match(/([\d,]+\.?\d*)\s*([TBMK]?)/i);
+
+            if (!match) return 0;
+
+            let value = parseFloat(match[1].replace(/,/g, ''));
+            const multiplier = match[2].toUpperCase();
+
+            // Convert to billions for consistent comparison
+            switch(multiplier) {
+                case 'T': // Trillion
+                    value *= 1000;
+                    break;
+                case 'B': // Billion (already in billions)
+                    break;
+                case 'M': // Million
+                    value /= 1000;
+                    break;
+                case 'K': // Thousand
+                    value /= 1000000;
+                    break;
+                default:
+                    // Assume billions if no multiplier
+                    break;
+            }
+
+            return value;
+        }
+
+        // Initialize table with default data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDefaultTableData();
+        });
+
+        // Function to initialize the table with default company data
+        function initializeDefaultTableData() {
+            const tableBody = document.querySelector('#company-table tbody');
+            const defaultCompanies = [
+                { ticker: 'AAPL', marketCap: '$2.5T', revenue: '$365B', netIncome: '$94B', peRatio: '28.5' },
+                { ticker: 'GOOGL', marketCap: '$1.8T', revenue: '$280B', netIncome: '$60B', peRatio: '25.2' },
+                { ticker: 'MSFT', marketCap: '$2.2T', revenue: '$198B', netIncome: '$72B', peRatio: '32.1' },
+                { ticker: 'AMZN', marketCap: '$1.5T', revenue: '$469B', netIncome: '$33B', peRatio: '45.8' },
+                { ticker: 'TSLA', marketCap: '~800B', revenue: '~$90B', netIncome: '~$12B', peRatio: '~65' }
+            ];
+
+            defaultCompanies.forEach(company => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${company.ticker}</td>
+                    <td>${company.marketCap}</td>
+                    <td>${company.revenue}</td>
+                    <td>${company.netIncome}</td>
+                    <td>${company.peRatio}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            // Initialize search results count
+            updateSearchResultsCount();
+        }
+
+        // Admin button click handler
+        adminBtn.addEventListener('click', function() {
+            adminModal.style.display = 'flex';
+            adminPasswordInput.focus();
+        });
+
+        // Admin login button handler
+        adminLoginBtn.addEventListener('click', function() {
+            const enteredPassword = adminPasswordInput.value.trim();
+            if (enteredPassword === ADMIN_PASSWORD) {
+                // Correct password - unlock forms
+                unlockAdminFeatures();
+                adminModal.style.display = 'none';
+                adminLoginMessage.textContent = '';
+                adminBtn.textContent = 'Admin Unlocked';
+                adminBtn.style.background = 'linear-gradient(45deg, var(--green), var(--neon-blue))';
+            } else {
+                // Incorrect password
+                adminLoginMessage.textContent = 'Incorrect password. Please try again.';
+                adminLoginMessage.style.color = '#ff6b6b';
+                adminPasswordInput.value = '';
+            }
+        });
+
+        // Admin cancel button handler
+        adminCancelBtn.addEventListener('click', function() {
+            adminModal.style.display = 'none';
+            adminLoginMessage.textContent = '';
+        });
+
+        // Allow Enter key to submit admin password
+        adminPasswordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                adminLoginBtn.click();
+            }
+        });
+
+        // Function to unlock admin features
+        function unlockAdminFeatures() {
+            // Show the form
+            form.style.display = 'block';
+            adminLoginMessage.textContent = 'Forms unlocked successfully!';
+            adminLoginMessage.style.color = '#00ff88';
+            setTimeout(() => {
+                adminLoginMessage.textContent = '';
+            }, 2000);
+        }
+
+        // Form submission handler - UPDATED FOR TABLE SORTING
+        // Now adds companies to the sortable table instead of separate spotlights
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent the form from submitting and reloading the page
+
+            // Get values from form inputs
+            const ticker = document.getElementById('ticker').value.trim();
+            const marketCap = document.getElementById('market-cap').value.trim();
+            const revenue = document.getElementById('revenue').value.trim();
+            const netIncome = document.getElementById('net-income').value.trim();
+            const peRatio = document.getElementById('pe-ratio').value.trim();
+            const commentary = document.getElementById('commentary').value.trim();
+
+            // Validate that all fields are filled
+            if (!ticker || !marketCap || !revenue || !netIncome || !peRatio || !commentary) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // Add company to the sortable table
+            const tableBody = document.querySelector('#company-table tbody');
+            const newRow = document.createElement('tr');
+            newRow.className = 'fade-in'; // Add fade-in animation
+            newRow.innerHTML = `
+                <td>${ticker}</td>
+                <td>${marketCap}</td>
+                <td>${revenue}</td>
+                <td>${netIncome}</td>
+                <td>${peRatio}</td>
+            `;
+
+            // Add the new row to the table
+            tableBody.appendChild(newRow);
+
+            // Re-sort the table if a sort is currently active
+            if (currentSortBy !== 'default') {
+                sortTable(currentSortBy, sortAscending);
+            }
+
+            // Apply current search filter to the new row
+            if (searchTerm !== '') {
+                filterCompanies();
+            }
+
+            // Update search results count
+            updateSearchResultsCount();
+
+            // Clear the form
+            form.reset();
+
+            // Optional: Scroll to the table
+            newRow.scrollIntoView({ behavior: 'smooth' });
+
+            // Show success message
+            adminLoginMessage.textContent = `Company ${ticker} added to table successfully!`;
+            adminLoginMessage.style.color = '#00ff88';
+            setTimeout(() => {
+                adminLoginMessage.textContent = '';
+            }, 3000);
+        });
+
+        // Initialize charts for existing companies on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create charts for TSLA (existing company)
+            createCompanyCharts('TSLA', 'tsla-charts-container');
+        });
+    </script>
+    <!-- Script to highlight active navigation -->
+    <script>
+        // Highlight the active page in navigation
+        const currentPage = window.location.pathname.split('/').pop();
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active');
+            }
+        });
+    </script></body>
+</html>
