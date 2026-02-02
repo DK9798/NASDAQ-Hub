@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASDAQ Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header section with main title and subtitle -->
+    <header>
+        <h1>NASDAQ Hub</h1>
+        <p>Independent equity & financial analysis</p>
+        <button class="admin-access-btn" id="admin-access-btn">Admin Access</button>
+    </header>
+
+    <!-- Navigation bar with links to different sections/pages -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="company.html">Company Analysis</a></li>
+            <li><a href="market.html">Market Insights</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main content area -->
+    <main>
+        <!-- Hero banner section with financial graphics -->
+        <!-- Optional hero banner - can be replaced with actual stock chart image -->
+        <section id="hero-banner" class="hero-banner">
+            <div class="hero-content">
+                <h2>Welcome to NASDAQ Hub</h2>
+                <p>Your gateway to intelligent financial analysis</p>
+                <div class="hero-visual">
+                    <!-- Placeholder for stock chart or financial graphic -->
+                    📈📊💹
+                </div>
+            </div>
+
+            <!-- Market Today Section -->
+            <!-- MANUAL UPDATE INSTRUCTIONS:
+                 To update market values, edit the values below:
+                 - Update the data-value attributes with current market levels
+                 - Update the data-change attributes with daily change (+/-)
+                 - Update the data-percent attributes with percentage change
+                 - Values are displayed as of market close or current trading levels
+            -->
+            <div class="market-today">
+                <h3>Market Today</h3>
+                <div class="market-indices">
+                    <div class="market-index" data-value="4,234.56" data-change="+12.34" data-percent="+0.29%">
+                        <span class="index-name">S&P 500</span>
+                        <span class="index-value">4,234.56</span>
+                        <span class="index-change positive">+12.34 (+0.29%)</span>
+                    </div>
+                    <div class="market-index" data-value="13,456.78" data-change="-45.67" data-percent="-0.34%">
+                        <span class="index-name">NASDAQ</span>
+                        <span class="index-value">13,456.78</span>
+                        <span class="index-change negative">-45.67 (-0.34%)</span>
+                    </div>
+                    <div class="market-index" data-value="34,567.89" data-change="+89.12" data-percent="+0.26%">
+                        <span class="index-name">DOW</span>
+                        <span class="index-value">34,567.89</span>
+                        <span class="index-change positive">+89.12 (+0.26%)</span>
+                    </div>
+                </div>
+
+                <!-- Stock Ticker Animation -->
+                <div class="ticker-container">
+                    <div class="ticker-label">LIVE TICKER:</div>
+                    <div class="ticker-tape">
+                        <div class="ticker-content">
+                            <!-- MANUAL UPDATE: Edit ticker symbols and values below -->
+                            <!-- Format: SYMBOL:VALUE(CHG%) | SYMBOL:VALUE(CHG%) | etc. -->
+                            <span>AAPL:178.45(+1.2%)</span>
+                            <span>•</span>
+                            <span>TSLA:245.67(-0.8%)</span>
+                            <span>•</span>
+                            <span>GOOGL:142.89(+0.5%)</span>
+                            <span>•</span>
+                            <span>MSFT:378.12(+0.9%)</span>
+                            <span>•</span>
+                            <span>AMZN:155.34(-0.3%)</span>
+                            <span>•</span>
+                            <span>NVDA:875.23(+2.1%)</span>
+                            <span>•</span>
+                            <span>META:345.67(+0.7%)</span>
+                            <span>•</span>
+                            <span>AAPL:178.45(+1.2%)</span>
+                            <span>•</span>
+                            <span>TSLA:245.67(-0.8%)</span>
+                            <span>•</span>
+                            <span>GOOGL:142.89(+0.5%)</span>
+                            <span>•</span>
+                            <span>MSFT:378.12(+0.9%)</span>
+                            <span>•</span>
+                            <span>AMZN:155.34(-0.3%)</span>
+                            <span>•</span>
+                            <span>NVDA:875.23(+2.1%)</span>
+                            <span>•</span>
+                            <span>META:345.67(+0.7%)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Introduction section -->
+        <!-- This section introduces NASDAQ Hub's purpose, mission, and vision -->
+        <section id="introduction" class="intro-section">
+            <div class="container">
+                <h2>About NASDAQ Hub</h2>
+                <p>NASDAQ Hub is an innovative platform dedicated to providing independent, AI-enhanced equity and financial analysis. We combine cutting-edge technology with deep market insights to deliver clear, actionable information for investors, analysts, and finance enthusiasts seeking to navigate the complex world of financial markets.</p>
+                <p>Our mission is to democratize access to sophisticated financial analysis by leveraging artificial intelligence to process vast amounts of market data and present it in an intuitive, user-friendly format. We envision a future where informed investment decisions are accessible to everyone, regardless of their background or experience level.</p>
+            </div>
+        </section>
+
+        <!-- Features section with cards -->
+        <!-- This section highlights key platform features -->
+        <section id="features" class="features-section">
+            <div class="container">
+                <h2>Platform Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🏢</div>
+                        <h3>Weekly Company Spotlight</h3>
+                        <p>In-depth analysis of publicly traded companies with key financial metrics, market cap, revenue, and performance indicators.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📈</div>
+                        <h3>Market Insights</h3>
+                        <p>Comprehensive weekly market summaries, macro trend analysis, and key news drivers affecting global markets.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <h3>AI-Assisted Commentary</h3>
+                        <p>Intelligent analysis powered by advanced algorithms, providing nuanced insights and investment perspectives.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h3>TikTok Insights</h3>
+                        <p>Quick, engaging financial insights delivered through short-form video content for modern investors.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call-to-Action section -->
+        <!-- This section provides navigation buttons to main features -->
+        <section id="cta" class="cta-section">
+            <div class="container">
+                <h2>Explore NASDAQ Hub</h2>
+                <p>Start your journey into intelligent financial analysis today.</p>
+                <div class="cta-buttons">
+                    <a href="company.html" class="cta-button primary">Company Analysis</a>
+                    <a href="market.html" class="cta-button secondary">Market Insights</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Admin Access Modal -->
+    <div id="admin-modal" class="login-modal" style="display: none;">
+        <div class="login-modal-content">
+            <h2>Admin Access</h2>
+            <p>Enter password to unlock editing features:</p>
+            <input type="password" id="admin-password-input" class="password-input" placeholder="Enter password">
+            <div class="login-buttons">
+                <button id="admin-login-btn" class="login-btn">Unlock</button>
+                <button id="admin-cancel-btn" class="cancel-btn">Cancel</button>
+            </div>
+            <p class="login-message" id="admin-login-message"></p>
+        </div>
+    </div>
+
+    <!-- Admin Access JavaScript -->
+    <script>
+        // Admin Access functionality
+        // Hard-coded password for admin access
+        // To change password: Replace 'nasdaq2026' with your desired password
+        const ADMIN_PASSWORD = 'D@nyalNASDQ26';
+
+        // DOM elements
+        const adminBtn = document.getElementById('admin-access-btn');
+        const adminModal = document.getElementById('admin-modal');
+        const adminPasswordInput = document.getElementById('admin-password-input');
+        const adminLoginBtn = document.getElementById('admin-login-btn');
+        const adminCancelBtn = document.getElementById('admin-cancel-btn');
+        const adminLoginMessage = document.getElementById('admin-login-message');
+
+        // Admin button click handler
+        adminBtn.addEventListener('click', function() {
+            adminModal.style.display = 'flex';
+            adminPasswordInput.focus();
+        });
+
+        // Admin login button handler
+        adminLoginBtn.addEventListener('click', function() {
+            const enteredPassword = adminPasswordInput.value.trim();
+            if (enteredPassword === ADMIN_PASSWORD) {
+                // Correct password - unlock forms if they exist
+                unlockAdminFeatures();
+                adminModal.style.display = 'none';
+                adminLoginMessage.textContent = '';
+                adminBtn.textContent = 'Admin Unlocked';
+                adminBtn.style.background = 'linear-gradient(45deg, var(--green), var(--neon-blue))';
+            } else {
+                // Incorrect password
+                adminLoginMessage.textContent = 'Incorrect password. Please try again.';
+                adminLoginMessage.style.color = '#ff6b6b';
+                adminPasswordInput.value = '';
+            }
+        });
+
+        // Admin cancel button handler
+        adminCancelBtn.addEventListener('click', function() {
+            adminModal.style.display = 'none';
+            adminLoginMessage.textContent = '';
+        });
+
+        // Allow Enter key to submit admin password
+        adminPasswordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                adminLoginBtn.click();
+            }
+        });
+
+        // Function to unlock admin features (forms, etc.)
+        function unlockAdminFeatures() {
+            // Check if forms exist on this page and show them
+            const forms = document.querySelectorAll('.add-company-form, .add-insight-form');
+            if (forms.length > 0) {
+                forms.forEach(form => {
+                    form.style.display = 'block';
+                });
+                adminLoginMessage.textContent = 'Forms unlocked successfully!';
+                adminLoginMessage.style.color = '#00ff88';
+                setTimeout(() => {
+                    adminLoginMessage.textContent = '';
+                }, 2000);
+            } else {
+                adminLoginMessage.textContent = 'No editable forms found on this page.';
+                adminLoginMessage.style.color = '#ffd700';
+                setTimeout(() => {
+                    adminLoginMessage.textContent = '';
+                }, 2000);
+            }
+        }
+
+        // Market Data Update Function
+        // MANUAL UPDATE: To update market values, modify the updateMarketData() function below
+        // Replace the values with current market data
+        function updateMarketData() {
+            // Update these values manually with current market data
+            const marketData = {
+                sp500: { value: '4,234.56', change: '+12.34', percent: '+0.29%' },
+                nasdaq: { value: '13,456.78', change: '-45.67', percent: '-0.34%' },
+                dow: { value: '34,567.89', change: '+89.12', percent: '+0.26%' }
+            };
+
+            // Update S&P 500
+            const sp500Element = document.querySelector('.market-index[data-value]');
+            if (sp500Element) {
+                sp500Element.querySelector('.index-value').textContent = marketData.sp500.value;
+                sp500Element.querySelector('.index-change').textContent = `${marketData.sp500.change} (${marketData.sp500.percent})`;
+                sp500Element.querySelector('.index-change').className = `index-change ${marketData.sp500.change.startsWith('+') ? 'positive' : 'negative'}`;
+            }
+
+            // Update NASDAQ
+            const nasdaqElements = document.querySelectorAll('.market-index');
+            if (nasdaqElements[1]) {
+                nasdaqElements[1].querySelector('.index-value').textContent = marketData.nasdaq.value;
+                nasdaqElements[1].querySelector('.index-change').textContent = `${marketData.nasdaq.change} (${marketData.nasdaq.percent})`;
+                nasdaqElements[1].querySelector('.index-change').className = `index-change ${marketData.nasdaq.change.startsWith('+') ? 'positive' : 'negative'}`;
+            }
+
+            // Update DOW
+            if (nasdaqElements[2]) {
+                nasdaqElements[2].querySelector('.index-value').textContent = marketData.dow.value;
+                nasdaqElements[2].querySelector('.index-change').textContent = `${marketData.dow.change} (${marketData.dow.percent})`;
+                nasdaqElements[2].querySelector('.index-change').className = `index-change ${marketData.dow.change.startsWith('+') ? 'positive' : 'negative'}`;
+            }
+        }
+
+        // Initialize market data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateMarketData();
+        });
+    </script>
+
+    <!-- Script to highlight active navigation -->
+    <script>
+        // Highlight the active page in navigation
+        const currentPage = window.location.pathname.split('/').pop();
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>

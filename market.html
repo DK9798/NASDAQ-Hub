@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Insights - NASDAQ Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header section with main title and subtitle -->
+    <header>
+        <h1>NASDAQ Hub</h1>
+        <p>Independent equity & financial analysis</p>
+        <button class="admin-access-btn" id="admin-access-btn">Admin Access</button>
+    </header>
+
+    <!-- Navigation bar with links to different sections/pages -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="company.html">Company Analysis</a></li>
+            <li><a href="market.html">Market Insights</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Visual separator for Market Insights form -->
+    <div class="section-separator"></div>
+
+    <!-- Form to add new market insights weekly -->
+    <form id="add-insight-form" class="add-insight-form" style="display: none;">
+        <h2>Add Weekly Market Insight</h2>
+        <label for="weekly-summary">Weekly Market Summary:</label>
+        <textarea id="weekly-summary" rows="4" required></textarea>
+
+        <label for="macro-trends">Macro Trends:</label>
+        <textarea id="macro-trends" rows="4" required></textarea>
+
+        <label for="key-news">Key News Drivers:</label>
+        <textarea id="key-news" rows="4" required></textarea>
+
+        <label for="tiktok-embed">TikTok Embed Code (optional):</label>
+        <textarea id="tiktok-embed" rows="3" placeholder="Paste TikTok embed iframe code here"></textarea>
+
+        <label for="tiktok-caption">TikTok Caption:</label>
+        <input type="text" id="tiktok-caption" required>
+
+        <button type="submit">Add Insight</button>
+    </form>
+
+    <!-- Admin Access Modal -->
+    <div id="admin-modal" class="login-modal" style="display: none;">
+        <div class="login-modal-content">
+            <h2>Admin Access</h2>
+            <p>Enter password to unlock editing features:</p>
+            <input type="password" id="admin-password-input" class="password-input" placeholder="Enter password">
+            <div class="login-buttons">
+                <button id="admin-login-btn" class="login-btn">Unlock</button>
+                <button id="admin-cancel-btn" class="cancel-btn">Cancel</button>
+            </div>
+            <p class="login-message" id="admin-login-message"></p>
+        </div>
+    </div>
+
+    <!-- Container for dynamically added insights -->
+    <div id="new-insights"></div>
+
+    <!-- Main content area -->
+    <main>
+        <!-- Weekly Market Summary section -->
+        <section id="weekly-summary">
+            <h2>Weekly Market Summary</h2>
+            <!-- Placeholder paragraph for weekly market summary -->
+            <!-- To update: Replace this paragraph with the latest weekly market overview, including key indices performance, sector highlights, and overall market sentiment -->
+            <p>This week's market summary provides an overview of major indices performance, sector rotations, and emerging trends. Key highlights include technology sector gains driven by AI advancements, while energy stocks faced volatility due to geopolitical tensions. Overall market sentiment remains cautiously optimistic with investors focusing on upcoming economic data releases.</p>
+        </section>
+
+        <!-- Macro Trends section -->
+        <section id="macro-trends">
+            <h2>Macro Trends</h2>
+            <!-- Placeholder paragraph for macro economic trends -->
+            <!-- To update: Replace this paragraph with current macroeconomic analysis, such as interest rate expectations, inflation trends, GDP growth forecasts, and global economic indicators -->
+            <p>Current macroeconomic trends indicate a gradual cooling of inflation rates in major economies, supported by central bank policies. Interest rate stabilization is expected in the coming quarters, potentially benefiting equity markets. Global GDP growth projections remain moderate, with emerging markets showing stronger recovery momentum compared to developed economies.</p>
+        </section>
+
+        <!-- Key News Drivers section -->
+        <section id="key-news">
+            <h2>Key News Drivers</h2>
+            <!-- Placeholder paragraph for key news drivers -->
+            <!-- To update: Replace this paragraph with summaries of major news events affecting markets, including earnings reports, regulatory changes, geopolitical developments, and corporate announcements -->
+            <p>Major news drivers this week include blockbuster earnings from tech giants, regulatory developments in the cryptocurrency space, and ongoing trade negotiations between key economic powers. Corporate mergers and acquisitions activity has picked up, while supply chain disruptions continue to impact manufacturing sectors globally.</p>
+        </section>
+
+        <!-- Featured TikTok Insight section -->
+        <section id="tiktok-insight">
+            <h2>Featured TikTok Insight</h2>
+            <!-- Placeholder for embedded TikTok video -->
+            <!-- To update: Replace this div with actual TikTok embed code. Visit the TikTok video, click share > embed, and paste the iframe code here. Update the caption below accordingly -->
+            <div class="tiktok-placeholder">
+                <p>[Embedded TikTok Video Placeholder]</p>
+                <p>Video would be embedded here showing a quick financial insight or market analysis.</p>
+            </div>
+            <!-- Caption for the TikTok insight -->
+            <!-- To update: Replace this paragraph with a brief description of the TikTok video's financial insight or key takeaway -->
+            <p class="tiktok-caption">This featured insight explores how artificial intelligence is transforming investment strategies, with practical tips for retail investors adapting to algorithmic trading trends.</p>
+        </section>
+    </main>
+
+    <!-- JavaScript for adding market insights dynamically and admin access -->
+    <script>
+        // Admin Access functionality
+        // Hard-coded password for admin access
+        // To change password: Replace 'nasdaq2026' with your desired password
+        const ADMIN_PASSWORD = 'D@nyalNASDQ26';
+
+        // DOM elements for admin access
+        const adminBtn = document.getElementById('admin-access-btn');
+        const adminModal = document.getElementById('admin-modal');
+        const adminPasswordInput = document.getElementById('admin-password-input');
+        const adminLoginBtn = document.getElementById('admin-login-btn');
+        const adminCancelBtn = document.getElementById('admin-cancel-btn');
+        const adminLoginMessage = document.getElementById('admin-login-message');
+
+        // DOM elements for form
+        const insightForm = document.getElementById('add-insight-form');
+        const newInsightsContainer = document.getElementById('new-insights');
+
+        // Admin button click handler
+        adminBtn.addEventListener('click', function() {
+            adminModal.style.display = 'flex';
+            adminPasswordInput.focus();
+        });
+
+        // Admin login button handler
+        adminLoginBtn.addEventListener('click', function() {
+            const enteredPassword = adminPasswordInput.value.trim();
+            if (enteredPassword === ADMIN_PASSWORD) {
+                // Correct password - unlock forms
+                unlockAdminFeatures();
+                adminModal.style.display = 'none';
+                adminLoginMessage.textContent = '';
+                adminBtn.textContent = 'Admin Unlocked';
+                adminBtn.style.background = 'linear-gradient(45deg, var(--green), var(--neon-blue))';
+            } else {
+                // Incorrect password
+                adminLoginMessage.textContent = 'Incorrect password. Please try again.';
+                adminLoginMessage.style.color = '#ff6b6b';
+                adminPasswordInput.value = '';
+            }
+        });
+
+        // Admin cancel button handler
+        adminCancelBtn.addEventListener('click', function() {
+            adminModal.style.display = 'none';
+            adminLoginMessage.textContent = '';
+        });
+
+        // Allow Enter key to submit admin password
+        adminPasswordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                adminLoginBtn.click();
+            }
+        });
+
+        // Function to unlock admin features
+        function unlockAdminFeatures() {
+            // Show the form
+            insightForm.style.display = 'block';
+            adminLoginMessage.textContent = 'Forms unlocked successfully!';
+            adminLoginMessage.style.color = '#00ff88';
+            setTimeout(() => {
+                adminLoginMessage.textContent = '';
+            }, 2000);
+        }
+
+        // Form submission handler
+        insightForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent page reload
+
+            // Get values from form inputs
+            const weeklySummary = document.getElementById('weekly-summary').value.trim();
+            const macroTrends = document.getElementById('macro-trends').value.trim();
+            const keyNews = document.getElementById('key-news').value.trim();
+            const tiktokEmbed = document.getElementById('tiktok-embed').value.trim();
+            const tiktokCaption = document.getElementById('tiktok-caption').value.trim();
+
+            // Validate required fields
+            if (!weeklySummary || !macroTrends || !keyNews || !tiktokCaption) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Get current date
+            const currentDate = new Date().toLocaleDateString();
+
+            // Create the insight section
+            const insightDiv = document.createElement('section');
+            insightDiv.className = 'weekly-insight fade-in';
+
+            // Header with date
+            const header = document.createElement('h2');
+            header.textContent = `Weekly Market Insight - ${currentDate}`;
+            insightDiv.appendChild(header);
+
+            // Weekly Market Summary subsection
+            const summarySection = document.createElement('div');
+            summarySection.className = 'insight-subsection';
+            const summaryH3 = document.createElement('h3');
+            summaryH3.textContent = 'Weekly Market Summary';
+            const summaryP = document.createElement('p');
+            summaryP.textContent = weeklySummary;
+            summarySection.appendChild(summaryH3);
+            summarySection.appendChild(summaryP);
+            insightDiv.appendChild(summarySection);
+
+            // Macro Trends subsection
+            const macroSection = document.createElement('div');
+            macroSection.className = 'insight-subsection';
+            const macroH3 = document.createElement('h3');
+            macroH3.textContent = 'Macro Trends';
+            const macroP = document.createElement('p');
+            macroP.textContent = macroTrends;
+            macroSection.appendChild(macroH3);
+            macroSection.appendChild(macroP);
+            insightDiv.appendChild(macroSection);
+
+            // Key News Drivers subsection
+            const newsSection = document.createElement('div');
+            newsSection.className = 'insight-subsection';
+            const newsH3 = document.createElement('h3');
+            newsH3.textContent = 'Key News Drivers';
+            const newsP = document.createElement('p');
+            newsP.textContent = keyNews;
+            newsSection.appendChild(newsH3);
+            newsSection.appendChild(newsP);
+            insightDiv.appendChild(newsSection);
+
+            // TikTok Insight subsection
+            const tiktokSection = document.createElement('div');
+            tiktokSection.className = 'insight-subsection';
+            const tiktokH3 = document.createElement('h3');
+            tiktokH3.textContent = 'Featured TikTok Insight';
+            tiktokSection.appendChild(tiktokH3);
+
+            if (tiktokEmbed) {
+                // Create a div for the embed and set innerHTML
+                const embedDiv = document.createElement('div');
+                embedDiv.className = 'tiktok-embed';
+                embedDiv.innerHTML = tiktokEmbed;
+                tiktokSection.appendChild(embedDiv);
+            } else {
+                // Placeholder if no embed
+                const placeholder = document.createElement('div');
+                placeholder.className = 'tiktok-placeholder';
+                placeholder.innerHTML = '<p>[TikTok Video Placeholder]</p>';
+                tiktokSection.appendChild(placeholder);
+            }
+
+            const captionP = document.createElement('p');
+            captionP.className = 'tiktok-caption';
+            captionP.textContent = tiktokCaption;
+            tiktokSection.appendChild(captionP);
+
+            insightDiv.appendChild(tiktokSection);
+
+            // Append the new insight to the container
+            newInsightsContainer.appendChild(insightDiv);
+
+            // Clear the form
+            insightForm.reset();
+
+            // Scroll to the new insight
+            insightDiv.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+
+    <!-- Script to highlight active navigation -->
+    <script>
+        // Highlight the active page in navigation
+        const currentPage = window.location.pathname.split('/').pop();
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>

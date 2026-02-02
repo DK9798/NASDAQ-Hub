@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - NASDAQ Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header section with main title and subtitle -->
+    <header>
+        <h1>NASDAQ Hub</h1>
+        <p>Independent equity & financial analysis</p>
+        <button class="admin-access-btn" id="admin-access-btn">Admin Access</button>
+    </header>
+
+    <!-- Navigation bar with links to different sections/pages -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="company.html">Company Analysis</a></li>
+            <li><a href="market.html">Market Insights</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main content area -->
+    <main>
+        <!-- Introduction section -->
+        <!-- This section introduces NASDAQ Hub and its purpose -->
+        <section id="introduction">
+            <h2>Introduction</h2>
+            <p>NASDAQ Hub is an independent platform dedicated to providing structured equity and financial analysis. As an AI-assisted finance analysis tool, we combine automated insights with human oversight to deliver clear, actionable information for investors and finance enthusiasts. Our focus is on making complex market data accessible and understandable through weekly updates and detailed company breakdowns.</p>
+        </section>
+
+        <!-- Founder section -->
+        <!-- This section introduces the founder and their background -->
+        <section id="founder">
+            <h2>Founder</h2>
+            <p>Danyal is the founder of NASDAQ Hub. With a strong interest in finance and technology, Danyal has developed this platform as a comprehensive tool for learning, analysis, and skill demonstration. By leveraging AI capabilities, the focus is on transforming complex market data into clear, actionable insights that make financial information more accessible and understandable for investors and enthusiasts alike.</p>
+        </section>
+
+        <!-- Mission Statement section -->
+        <!-- This section outlines the core mission of the platform -->
+        <section id="mission">
+            <h2>Mission Statement</h2>
+            <p>Our mission is to provide structured, weekly market insights and comprehensive company analysis that empowers users to make informed financial decisions. We strive to deliver AI-enhanced content that is both accurate and accessible, fostering financial literacy and supporting investors in navigating the dynamic world of equity markets.</p>
+        </section>
+
+        <!-- Vision and Goals section -->
+        <!-- This section describes future aspirations and goals -->
+        <section id="vision">
+            <h2>Vision & Goals</h2>
+            <p>Looking ahead, NASDAQ Hub aims to expand its platform with advanced analytics, real-time data integration, and interactive tools. Our goals include deepening our understanding of financial markets, continuously improving our AI capabilities, and showcasing technical skills for future opportunities in fintech and data analysis. We envision NASDAQ Hub as a comprehensive resource for both novice and experienced investors.</p>
+        </section>
+    </main>
+
+    <!-- Admin Access Modal -->
+    <div id="admin-modal" class="login-modal" style="display: none;">
+        <div class="login-modal-content">
+            <h2>Admin Access</h2>
+            <p>Enter password to unlock editing features:</p>
+            <input type="password" id="admin-password-input" class="password-input" placeholder="Enter password">
+            <div class="login-buttons">
+                <button id="admin-login-btn" class="login-btn">Unlock</button>
+                <button id="admin-cancel-btn" class="cancel-btn">Cancel</button>
+            </div>
+            <p class="login-message" id="admin-login-message"></p>
+        </div>
+    </div>
+
+    <!-- Admin Access JavaScript -->
+    <script>
+        // Admin Access functionality
+        // Hard-coded password for admin access
+        // To change password: Replace 'nasdaq2026' with your desired password
+        const ADMIN_PASSWORD = 'D@nyalNASDQ26';
+
+        // DOM elements
+        const adminBtn = document.getElementById('admin-access-btn');
+        const adminModal = document.getElementById('admin-modal');
+        const adminPasswordInput = document.getElementById('admin-password-input');
+        const adminLoginBtn = document.getElementById('admin-login-btn');
+        const adminCancelBtn = document.getElementById('admin-cancel-btn');
+        const adminLoginMessage = document.getElementById('admin-login-message');
+
+        // Admin button click handler
+        adminBtn.addEventListener('click', function() {
+            adminModal.style.display = 'flex';
+            adminPasswordInput.focus();
+        });
+
+        // Admin login button handler
+        adminLoginBtn.addEventListener('click', function() {
+            const enteredPassword = adminPasswordInput.value.trim();
+            if (enteredPassword === ADMIN_PASSWORD) {
+                // Correct password - unlock forms if they exist
+                unlockAdminFeatures();
+                adminModal.style.display = 'none';
+                adminLoginMessage.textContent = '';
+                adminBtn.textContent = 'Admin Unlocked';
+                adminBtn.style.background = 'linear-gradient(45deg, var(--green), var(--neon-blue))';
+            } else {
+                // Incorrect password
+                adminLoginMessage.textContent = 'Incorrect password. Please try again.';
+                adminLoginMessage.style.color = '#ff6b6b';
+                adminPasswordInput.value = '';
+            }
+        });
+
+        // Admin cancel button handler
+        adminCancelBtn.addEventListener('click', function() {
+            adminModal.style.display = 'none';
+            adminLoginMessage.textContent = '';
+        });
+
+        // Allow Enter key to submit admin password
+        adminPasswordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                adminLoginBtn.click();
+            }
+        });
+
+        // Function to unlock admin features
+        function unlockAdminFeatures() {
+            // Check if forms exist on this page and show them
+            const forms = document.querySelectorAll('.add-company-form, .add-insight-form');
+            if (forms.length > 0) {
+                forms.forEach(form => {
+                    form.style.display = 'block';
+                });
+                adminLoginMessage.textContent = 'Forms unlocked successfully!';
+                adminLoginMessage.style.color = '#00ff88';
+                setTimeout(() => {
+                    adminLoginMessage.textContent = '';
+                }, 2000);
+            } else {
+                adminLoginMessage.textContent = 'No editable forms found on this page.';
+                adminLoginMessage.style.color = '#ffd700';
+                setTimeout(() => {
+                    adminLoginMessage.textContent = '';
+                }, 2000);
+            }
+        }
+    </script>
+
+    <!-- Script to highlight active navigation -->
+    <script>
+        // Highlight the active page in navigation
+        const currentPage = window.location.pathname.split('/').pop();
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
